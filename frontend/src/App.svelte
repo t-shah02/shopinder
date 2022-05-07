@@ -4,7 +4,8 @@
   import LoginPanel from "./components/LoginPanel.svelte"
   import AppHeading from "./components/AppHeading.svelte"
   import Search from "./search.svelte"
-  import List from "./list.svelte"
+  import ShoppingList from "./shoppingList.svelte"
+  import SupportedStores from "./components/SupportedStores.svelte"
 
 
   let userLoggedIn;
@@ -18,15 +19,25 @@
     userName = value;
   });
 
+  let supportedStores;
+  async function loadStores() {
+    let resp = await fetch("/stores");
+    let storeJSON = await resp.json();
+    supportedStores = storeJSON;
+  }
+
+  loadStores();
+ 
 </script>
 
 
 {#if userLoggedIn}
   <Navbar names={userName.toUpperCase()}/>
   <div class="loggedin">
-    <Search></Search>
+    <SupportedStores storesSupported={supportedStores}></SupportedStores>
+    <Search storesSupported={supportedStores}></Search>
     <br>
-    <List></List>
+    <ShoppingList></ShoppingList>
   </div>
 {:else}
   <AppHeading></AppHeading>

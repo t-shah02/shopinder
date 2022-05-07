@@ -2,12 +2,12 @@
   import { isUserLoggedIn, name } from '../stores.js';
   window.onSignIn = (googleUser) => {
      const profile = googleUser.getBasicProfile();
-     console.log('ID: ' + profile.getId());
-     console.log('Name: ' + profile.getName());
-     console.log('Image URL: ' + profile.getImageUrl());
-     console.log('Email: ' + profile.getEmail());
+     const userID =  profile.getId();
+     const userName = profile.getName();
+     const profileImageUrl = profile.getImageUrl();
+     const email =  profile.getEmail();
      isUserLoggedIn.set(true);
-     name.set(profile.getName());
+     name.set(userName);
   };
 </script>
 

@@ -25,6 +25,6 @@ a:link, a:visited {
 }
 
 a:hover, a:active {
-  background-color: "#BOOB69";
+  background-color: #b00b69;
 }
 </style>
