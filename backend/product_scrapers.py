@@ -215,7 +215,7 @@ def lululemon_product_info(product_url):
   soup = BS(content,"html.parser")
   product_title = soup.find("h1",{"class":"OneLinkNoTx product-description_pdpTitle__3F7CP"}).text
   price_comps = soup.find("span",{"class":"price-1jnQj price"}).text.split("\xa0")
-  price_value = " ".join(price_comps)
+  price_value = " ".join(price_comps).replace("CAD"," ")
   currency = "CAD"
   product_img_link = None 
 

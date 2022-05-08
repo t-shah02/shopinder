@@ -1,6 +1,10 @@
 from flask import Flask, send_from_directory,request,Response
 import json
+
+from import_expression import find_imports
 from product_scrapers import *
+from auth import authenticate_google_token
+from db.db_util import *
 
 STATIC_PATH = "../frontend/public"
 
@@ -20,6 +24,48 @@ def stores():
     with open("stores.json","r") as file:
         stores_data = json.loads(file.read())
         return stores_data
+
+@app.route("/tokenauth",methods=["GET","POST"])
+def tokenauth():
+    if request.method == "POST":
+        data_received = request.get_json()
+        user_token = data_received.get("user_token")
+        return authenticate_google_token(user_token)
+    return Response({"status":"this endpoint only accepts POST requests"},status=403)
+
+
+@app.route("/user",methods=["GET","POST"])
+def handle_user():
+    if request.method == "POST":
+        data_received = request.get_json()
+        user_resp = find_or_register(data_received)
+        return user_resp
+
+    
+    return Response({"status":"this endpoint only accepts POST requests"},status=403,content_type="application/json")
+
+@app.route("/additem",methods=["GET","POST"])
+def additem():
+    if request.method == "POST":
+        data_received = request.get_json()
+        google_id = data_received.get("googleID")
+        item_data = data_received.get("itemData")
+        add_item(google_id,item_data)
+        return {"status":"success"}
+
+    return Response({"status":"this endpoint only accepts POST requests"},status=403,content_type="application/json")
+
+
+@app.route("/removeitem",methods=["GET","POST"])
+def removeitem():
+    if request.method == "POST":
+        data_received = request.get_json()
+        google_id = data_received.get("googleID")
+        item_data = data_received.get("updatedShoppingList")
+        remove_item(google_id,item_data)
+        return {"status":"success"}
+
+    return Response({"status":"this endpoint only accepts POST requests"},status=403,content_type="application/json")
 
 @app.route("/productinfo")
 def productinfo():

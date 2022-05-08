@@ -5,6 +5,7 @@
     let showMobileMenu = false;
 
     export let names;
+    export let numItems;
   
     // Mobile menu click event handler
     const handleMobileIconClick = () => (showMobileMenu = !showMobileMenu);
@@ -35,7 +36,7 @@
             <p>Welcome back, {names}</p>
           </li>
           <li>
-            <p>0 items in list</p>
+            <p>{numItems} items in list</p>
           </li>
           <li>
             <p>About us</p>

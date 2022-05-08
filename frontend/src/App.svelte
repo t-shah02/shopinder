@@ -1,5 +1,7 @@
+
+
 <script>
-  import { isUserLoggedIn, name } from './stores.js';
+  import { isUserLoggedIn, name, shoppingList } from './stores.js';
   import Navbar from './Navbar.svelte'
   import LoginPanel from "./components/LoginPanel.svelte"
   import AppHeading from "./components/AppHeading.svelte"
@@ -12,6 +14,7 @@
   isUserLoggedIn.subscribe(value => {
     userLoggedIn = value;
   });
+
 
   let userName;
 
@@ -32,7 +35,7 @@
 
 
 {#if userLoggedIn}
-  <Navbar names={userName.toUpperCase()}/>
+  <Navbar names={userName.toUpperCase()} numItems={$shoppingList.length}/>
   <div class="loggedin">
     <SupportedStores storesSupported={supportedStores}></SupportedStores>
     <Search storesSupported={supportedStores}></Search>

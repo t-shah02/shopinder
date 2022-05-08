@@ -14,6 +14,7 @@
     "svelte": "^3.0.0"
   },
   "dependencies": {
+    "autobuild": "^0.0.2",
     "dotenv": "^16.0.0",
     "sirv-cli": "^0.4.4",
     "typed.js": "^2.0.12"

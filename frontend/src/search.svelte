@@ -4,15 +4,14 @@
 	const GOOD_TO_GO = "good to go!";
 	const INVALID_URL = "not a valid URL, please try again!"
 	const VALID_BUT_NOT_SUPPORTED = "a valid URL, but it doesn't redirect to our supported stores"
-
+	
 
 	// define props
 	export let storesSupported;
-	
-	
+
 
 	let searchURL = '';
-	let validURLState = "not a valid URL, please try again!"
+	let validURLState = INVALID_URL;
 	let urlMap = {
 		GOOD_TO_GO:"color : green;",
 		INVALID_URL:"color : red;",
@@ -28,6 +27,7 @@
 
 	async function searchForItem() {
 		validURLState = isValidURL(searchURL);
+		console.log(validURLState,urlMap[validURLState]);
 		if (validURLState == GOOD_TO_GO) {
 			let endpoint_url = `/productinfo?store_name=${store}&product_url=${searchURL}`
 			const resp = await fetch(endpoint_url)
@@ -37,12 +37,15 @@
 				currency = respJSON.currency;
 				prodImageURL = respJSON.product_img_link;
 				price = respJSON.price_value;
+				
+				if (currency == null) {
+					currency = ""
+				}
 				if (!price) {
 					price = "Check website for price";
+					currency = "";
 				}
-				if (currency == null) {
-					currency = "CAD"
-				}
+
 				if (!prodImageURL) {
 					prodImageURL = "Check website for the product image";
 				}
@@ -52,6 +55,7 @@
 				displayProductCard = true;
 			}
 			else {
+				validURLState = "not finding anything, please try again!"
 				displayProductCard = false;
 			}
 		}
@@ -84,7 +88,8 @@
 	<input bind:value={searchURL} on:input = {searchForItem} placeholder="Please enter a URL for an item from one of our supported stores.">
 	<h1 class="valid-url">The following URL is: <span style={urlMap[validURLState]}>{validURLState}</span></h1>
 	{#if displayProductCard}
-		<SearchItem name={name} currency={currency} price={price} image={prodImageURL} store={store}></SearchItem>
+		<p>Hover over the image below to see product info and set up notifications</p>
+		<SearchItem name={name} currency={currency} price={price} image={prodImageURL} store={store} productURL={searchURL}></SearchItem>
 	{/if}
 </div>
 <style>
@@ -99,11 +104,12 @@
 		margin-right: 50px;
 		margin-top: 50px;
 		margin-bottom: 10px;
+		height:90%;
 		width:90%;
-		max-width: 980px;
-		text-align:center;
-	}
-
+		max-height:980px;
+		max-width:980px;
+   }
+	
 	.valid-url {
 		font-size: 15px;
 	}
@@ -117,6 +123,12 @@
 	h1 {
 		font-family: "Roboto Mono", sans-serif;
 		font-size: 24px;
+	}
+
+	p {
+		margin-top:15px;
+		font-family: "Roboto", sans-serif;
+		font-size: 14px;
 	}
 
 	input {

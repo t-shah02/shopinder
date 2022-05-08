@@ -3,7 +3,7 @@
 <div class="app-heading-container">
     <img class="shopinder-logo-img" src="https://media.discordapp.net/attachments/945541500329152522/972323213063372841/shopinder-logo.png" alt="logo"/>
     <h1 class="app-title-heading">SHOPINDER</h1>
-    <h1 class="animated-text-heading">🛒💲  <span id="typed-word"></span></h1>
+    <h1 class="animated-text-heading"> <img class="shopping-cart.png" src="https://cdn.discordapp.com/attachments/947691654901559326/972676010090835979/shopping-cart.png" alt="shopping cart"/><img class="dollar-sign.png" src="https://cdn.discordapp.com/attachments/947691654901559326/972675979308826634/dollar-sign.png" alt="dollar sign"/> <span id="typed-word"></span></h1>
 </div>
 
 <script>

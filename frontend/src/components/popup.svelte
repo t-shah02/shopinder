@@ -1,29 +1,37 @@
 <script>
+   let shown = false;
+
+   export function show() {
+       shown = true;
+   }
+
+   export function close() {
+       shown = false;
+   }
 
 </script>
 
-<div class="bg"/>
-<div class="popupBox">
-    <form action="">
-        <label for="method">How would you like to be notified
-            <fieldset>
-                <div>
-                    <input type="radio" id="email">
-                    <label for="email">Email</label>
-                </div>
-                <div>
-                    <input type="radio" id="phone">
-                    <label for="phone">Phone</label>
-                </div>
-            </fieldset>
-        </label>
-        <label for="time">When would you like to be notified?
-            <div>
-                <input type="datetime-local" id="when" min="2018-06-07T00:00" max="2018-06-14T00:00">
-            </div>
-        </label>
-    </form>
-</div>
+<svelte:window
+  on:keydown={e => {
+    if (e.key == 27) {
+      close();
+    }
+  }} />
+
+{#if shown}
+<span class="close" on:click={() => close()}>&times;</span>
+<slot />
+{/if}
+
 <style>
 
+    .close {
+        float: right;
+        cursor: pointer;
+        font-size: 50px;
+    }
+
+    .close:hover {
+        font-weight: 1000;
+    }
 </style>

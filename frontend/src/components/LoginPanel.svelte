@@ -1,13 +1,47 @@
 <script>
-  import { isUserLoggedIn, name } from '../stores.js';
-  window.onSignIn = (googleUser) => {
-     const profile = googleUser.getBasicProfile();
-     const userID =  profile.getId();
-     const userName = profile.getName();
-     const profileImageUrl = profile.getImageUrl();
-     const email =  profile.getEmail();
+  import { isUserLoggedIn, name, email, phoneNumber, shoppingList } from '../stores.js';
+  window.onSignIn = async (googleUser) => {
+
+     var profile = googleUser.getBasicProfile();
+     var logged = gapi.auth2.getAuthInstance().isSignedIn.get();
+     
+     if (logged && "data" in localStorage) {
+       let cachedData = JSON.parse(localStorage.getItem("data"));
+       name.set(cachedData.name);
+       email.set(cachedData.email);
+       phoneNumber.set(cachedData.phone_number);
+       shoppingList.set(cachedData.shopping_list);
+       isUserLoggedIn.set(true);
+       return;
+     }
+
+     var fullName = profile.getName();
+     var userEmail = profile.getEmail();
+     var subID = profile.getId(); 
+    
+     let infoBody = {
+       fullname : fullName,
+       email : userEmail,
+       subID : subID
+     }
+
+     let payLoad = {
+       method : 'POST',
+       headers: {
+        'Content-Type': 'application/json'},
+       body : JSON.stringify(infoBody)
+     }
+
+     const userResponse = await fetch("/user",payLoad);
+     const userJSON = await userResponse.json();
+     console.log(userJSON)
+     name.set(userJSON.name);
      isUserLoggedIn.set(true);
-     name.set(userName);
+     email.set(userJSON.email);
+     phoneNumber.set(userJSON.phone_number);
+     shoppingList.set(userJSON.shopping_list);
+     
+     localStorage.setItem("data",JSON.stringify(userJSON));
   };
 </script>
 
