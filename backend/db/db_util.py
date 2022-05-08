@@ -1,3 +1,4 @@
+
 import os
 import dotenv
 from pymongo import MongoClient
@@ -6,6 +7,24 @@ dotenv.load_dotenv()
 
 DB_CONN_URL = os.environ["DB_CONN_URL"]
 
+def get_all_users():
+    client = MongoClient(DB_CONN_URL)
+
+    try:
+        db = client["user-data"]
+        shopping_list = db["shopping-list"]
+        post = {}
+        all_users_data  = shopping_list.find(post)
+        users_iterable = []
+
+        for user in all_users_data:
+            users_iterable.append(user)
+        
+        return users_iterable
+    
+    except Exception:
+        client.close()
+        return False
 
 
 def find_or_register(user_data):
