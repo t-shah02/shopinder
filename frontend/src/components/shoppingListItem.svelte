@@ -15,10 +15,6 @@
         image = "https://media.discordapp.net/attachments/894109258235396118/972693222302306384/unknown.png"
     }
 
-    let data = {"Store":store, "Price":price + " " + currency, "Notification Method": NotificationMethod, "Notification Time":date1};
-    let keys = Object.keys(data);
-    let values = Object.values(data);
-    let entries = Object.entries(data);
 
     async function remove() {
         const filteredShoppingList = [];
@@ -27,8 +23,9 @@
                 filteredShoppingList.push($shoppingList[i]);
             }
         }
-        
+        console.log($shoppingList);
         shoppingList.set(filteredShoppingList);
+        console.log($shoppingList);
         const userCache = JSON.parse(localStorage.getItem("data"))
         userCache.shopping_list = filteredShoppingList;
         localStorage.setItem("data", JSON.stringify(userCache));
@@ -59,9 +56,10 @@
         <img src={image} alt="image"/>
         <div class="card__content">
             <h1>{name}</h1>
-            {#each entries as [key, value]}
-            <h3>{key}: {value}</h3>
-            {/each}
+            <h3>Store: {store}</h3>
+            <h3>Price: {price} {currency}</h3>
+            <h3>Notification method: {NotificationMethod}</h3>
+            <h3>Notification time: {date.replace("T", " ")}</h3>
             {#if phoneNo != null}
             <h3>Phone Number: {phoneNo}</h3>
             {/if}

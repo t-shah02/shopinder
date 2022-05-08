@@ -104,8 +104,7 @@
 		margin-right: 50px;
 		margin-top: 50px;
 		margin-bottom: 10px;
-		height:90%;
-		width:90%;
+		width:90vw;
 		max-height:980px;
 		max-width:980px;
    }
@@ -123,6 +122,8 @@
 	h1 {
 		font-family: "Roboto Mono", sans-serif;
 		font-size: 24px;
+		width:90vw;
+		text-align:center;
 	}
 
 	p {
@@ -132,8 +133,7 @@
 	}
 
 	input {
-		min-width: 500px;
-		width:75%;
+		min-width: 320px;
 		background: transparent;
     	border: none;
     	border-bottom: 2px solid #000000;

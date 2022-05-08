@@ -43,6 +43,9 @@
       }
     }
     
+    if (image == "Check website for the product image") {
+      image = "https://media.discordapp.net/attachments/894109258235396118/972693222302306384/unknown.png"
+    }
     
     async function handleAddItem() {
       
@@ -104,7 +107,7 @@
 
 <div class="container">
 <div class="card">
-    <img src={"https://media.discordapp.net/attachments/894109258235396118/972693222302306384/unknown.png" || image} alt="image"/>
+    <img src={image} alt="image"/>
     <div class="card__content">
         <h1>{name}</h1>
         <h2>Store name: {store}</h2>
