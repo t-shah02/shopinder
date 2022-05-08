@@ -1,9 +1,11 @@
 <script>
     import { onMount } from "svelte";
+    import { isAboutOn } from "./stores.js";
     import GoogleLogoutButton from "./components/GoogleLogoutButton.svelte";
     // Show mobile icon and display menu
     let showMobileMenu = false;
-
+    let isAboutSet = false;
+    let isClose="";
     export let names;
     export let numItems;
   
@@ -17,13 +19,28 @@
         showMobileMenu = false;
       }
     };
-  
+    
     // Attach media query listener on mount hook
     onMount(() => {
       const mediaListener = window.matchMedia("(max-width: 767px)");
   
       mediaListener.addListener(mediaQueryHandler);
     });
+
+    function setAbout() {
+      isAboutSet = !isAboutSet;
+      if (isAboutSet == true) {
+        isClose = "Close ";
+      }
+      else {
+        isClose = "";
+      }
+      update();
+    }
+
+    function update(){
+      isAboutOn.set(isAboutSet);
+    }
   </script>
   
   <nav>
@@ -39,7 +56,7 @@
             <p>{numItems} items in list</p>
           </li>
           <li>
-            <p>About us</p>
+            <button on:click={setAbout}>{isClose}About Us</button>
           </li>
         <li>
         <GoogleLogoutButton></GoogleLogoutButton>
@@ -50,6 +67,23 @@
   
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@100;200;400&family=VT323&display=swap');
+button {
+  color: white;
+  background-color:transparent;
+  border:none;
+  height:100%;
+  padding: 14px 25px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-family:"Roboto Mono", sans-serif;
+  font-size:20px;
+}
+
+button:hover, button:active {
+  background-color: #b00b69;
+}
+
     nav {
       background-color : purple;
       font-size: 20px;
@@ -166,7 +200,7 @@
       justify-content: space-between;
       height: 60px;
       align-items: center;
-      font-size: 25px;
+      font-size: 20px;
       font-family: 'Roboto Mono', sans-serif;
     }
   
